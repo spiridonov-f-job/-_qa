@@ -151,9 +151,9 @@ subnames2.splice(6, 0, 'Активные планы')
       //Проверка, что правило удалилось
       try{
         await page.waitForXPath("//span[contains(text(),'Тест')]", {timeout:10000})
-        console.log("Правило не удалилось")
+        redLog("Правило не удалилось")
       } catch(err){
-        redLog("Правило удалилось")
+        greenLog("Правило удалилось")
       }
     }
   }
