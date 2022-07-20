@@ -9,9 +9,12 @@ function delay(time) {
 async function redLog(str){
     console.log("\x1b[41m%s\x1b[0m", str)
   }
+async function greenLog(str){
+    console.log("\x1b[32m%s\x1b[0m", str)
+  }
   
 (async () => {
-  const browser = await puppeteer.launch({headless: false})
+  const browser = await puppeteer.launch({headless: false, slowMo:100})
   const page = await browser.newPage()
   await page.goto('https://its-tula.appmath.ru/')
   await page.setViewport({width:1400, height:600})
@@ -101,9 +104,9 @@ subnames2.splice(6, 0, 'Активные планы')
   await delay(1000)
 
   //Открываем раздел светофорные планы -> выбор плана кооринации
-  await(await page.waitForXPath("//button[contains (text(),'"+names2[3]+"')]", {timeout:2000})).click()
+  await(await page.waitForXPath("//button[contains (text(),'"+names2[3]+"')]", {timeout:5000})).click()
   await delay(500)
-  await(await page.waitForXPath("//button[contains (text(),'"+subnames2[7]+"')]", {timeout:2000})).click()
+  await(await page.waitForXPath("//button[contains (text(),'"+subnames2[7]+"')]", {timeout:5000})).click()
 
   //Что открывает?
   try{
@@ -124,7 +127,7 @@ subnames2.splice(6, 0, 'Активные планы')
     } catch(err){
       c = 0
     }
-    redLog("Тыкнули")
+    greenLog("Тыкнули")
     //Создание правила
     if (c === 1){
       await(await page.waitForXPath("//button[contains(text(),'Создать правило')]")).click()
@@ -150,11 +153,11 @@ subnames2.splice(6, 0, 'Активные планы')
         await page.waitForXPath("//span[contains(text(),'Тест')]", {timeout:10000})
         console.log("Правило не удалилось")
       } catch(err){
-        console.log("Правило удалилось")
+        redLog("Правило удалилось")
       }
     }
   }
 
-  await delay(1000)
+  await delay(2000)
   await browser.close()
 } )()
